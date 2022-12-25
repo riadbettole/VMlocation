@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+span,label,div {
+  background-color: transparent;
+  
+}
+
+*{
+  scrollbar-width: thin;
+  scrollbar-color: #e3e3e3 transparent;
+}
+
+#filter{
+  scroll-margin-top: 120px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.fleche {
+  position: absolute;
+}
+
+.textLogin {
+  text-shadow: 1px 1px 2px black;
+}
+.textSign{
+  text-shadow: 0.1px 0.1px 10px white;
+}

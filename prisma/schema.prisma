@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model car { 
+  id String @default(cuid()) @id
+    name String
+    marque String
+    fuel String
+    kilo Float
+    prix Float
+    dispo Boolean
+    ww Boolean
+    rating Int
+    image String
+}
+
+model user {
+  id String @default(cuid()) @id
+  firstname String
+  lastname String
+  mdp String
+  verified Boolean
+  tel String
+  email String @unique
+  adresse String
+  avatar String
+  rank String @default("user")
+  cin String
+}
+
+model rendezvous {
+  id String @default(cuid()) @id
+  firstname String
+  lastname String
+  email String @unique
+  date DateTime
+}
+
+model location {
+  id String @default(cuid()) @id
+  dateDu String
+  dateAu String
+  prolongation Boolean
+  livrer Boolean
+  chauffeur Boolean
+  voitureId String
+  locataireId String
+}
