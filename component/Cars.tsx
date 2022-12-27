@@ -14,8 +14,8 @@ interface filters {
 interface States {
   type?: string;
   cars?: car[];
-  carFilters: filters;
-  slider:number[];
+  carFilters?: filters;
+  slider?: number[];
   onFilterChange?: (e: filters) => void;
   onSetSlider?: (e: number[]) => void;
 }
@@ -83,27 +83,27 @@ function FilterCars({ slider, onSetSlider, carFilters, onFilterChange }: States)
         <input
           type="text"
           className="border rounded p-3 pr-10"
-          value={carFilters.filterText}
+          value={carFilters!.filterText}
           placeholder="Search..."
           onChange={(e) =>
-            onFilterChange!({ ...carFilters, filterText: e.target.value })
+            onFilterChange!({ ...carFilters!, filterText: e.target.value })
           }
         />
         <InputSlider slider={slider} onSetSlider={onSetSlider}/>
 
         <div>
             <Switch
-              checked={carFilters.Dispo}
+              checked={carFilters!.Dispo}
               onChange={(e: boolean) => {
-                onFilterChange!({ ...carFilters, Dispo: e });
+                onFilterChange!({ ...carFilters!, Dispo: e });
               }}
               className={`${
-                carFilters.Dispo ? "bg-[#5d8de7]" : "bg-gray-200"
+                carFilters!.Dispo ? "bg-[#5d8de7]" : "bg-gray-200"
               }  inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span
                 className={`${
-                  carFilters.Dispo ? "translate-x-6" : "translate-x-1"
+                  carFilters!.Dispo ? "translate-x-6" : "translate-x-1"
                 } inline-block h-4 w-4 transform rounded-full bg-white transition`}
               />
             </Switch>
@@ -112,17 +112,17 @@ function FilterCars({ slider, onSetSlider, carFilters, onFilterChange }: States)
         </div>
         <div>
             <Switch
-              checked={carFilters.ww}
+              checked={carFilters!.ww}
               onChange={(e: boolean) => {
-                onFilterChange!({ ...carFilters, ww: e });
+                onFilterChange!({ ...carFilters!, ww: e });
               }}
               className={`${
-                carFilters.ww ? "bg-[#5d8de7]" : "bg-gray-200"
+                carFilters!.ww ? "bg-[#5d8de7]" : "bg-gray-200"
               }  inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span
                 className={`${
-                  carFilters.ww ? "translate-x-6" : "translate-x-1"
+                  carFilters!.ww ? "translate-x-6" : "translate-x-1"
                 } inline-block h-4 w-4 transform rounded-full bg-white transition`}
               />
             </Switch>
@@ -139,21 +139,22 @@ function FilteredCarsTable({ slider, carFilters, cars }: States) {
   console.log(slider)
 
 
-  if (typeof carFilters.filterText !== "string") return <></>;
+  if (typeof carFilters!.filterText !== "string") return <></>;
 
   cars?.forEach((car) => {
+    let carF = car.name + " " + car.marque 
     if (
-      car.name.toLowerCase().indexOf(carFilters.filterText.toLowerCase()) === -1
+      carF.toLowerCase().indexOf(carFilters!.filterText.toLowerCase()) === -1
     ) {
       return <></>;
     }
-    if (carFilters.Dispo && !car.dispo) {
+    if (carFilters!.Dispo && !car.dispo) {
       return <></>;
     }
-    if (carFilters.ww && !car.ww) return <></>;
+    if (carFilters!.ww && !car.ww) return <></>;
     
-    if (car.prix > slider[1]) return <></>;
-    if (car.prix < slider[0]) return <></>;
+    if (car.prix > slider![1]) return <></>;
+    if (car.prix < slider![0]) return <></>;
 
     filteredCars.push(car);
   });
