@@ -53,15 +53,34 @@ function App() {
     );
 
   if (rank === "user") {
-    available = <>{signout}</>;
+    available = <>
+    <Link
+          className="hover:text-[#badb57] text-orange-300 duration-700 ease-in-out bg-transparent"
+          href="/myCars"
+        >
+          My cars
+        </Link>
+    {signout}</>;
   } else if (rank === "manager") {
     available = (
       <>
+      <Link
+          className="hover:text-[#badb57] text-orange-300 duration-700 ease-in-out bg-transparent"
+          href="/myCars"
+        >
+          My cars
+        </Link>
         <Link
           className="hover:text-[#badb57] text-red-600 duration-700 ease-in-out bg-transparent"
           href="/addcar"
         >
           Add car
+        </Link>
+        <Link
+          className="hover:text-[#badb57] text-red-600 duration-700 ease-in-out bg-transparent"
+          href="/locations"
+        >
+          Locations
         </Link>
         {signout}
       </>
@@ -98,6 +117,7 @@ function App() {
           </svg>
         </Link>
         {search}
+        
         {/* <Link
           className="hover:text-[#badb57] duration-700 ease-in-out bg-transparent"
           href="/about"
@@ -110,6 +130,7 @@ function App() {
         >
           RDV
         </Link>
+        
         {available}
       </div>
     </>

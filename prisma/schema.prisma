@@ -18,6 +18,7 @@ model car {
     ww Boolean
     rating Int
     image String
+    priceid String
 }
 
 model user {

@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import { checkout } from "../api/checkout";
+import getStripe from "../api/getStripe";
+import indispo from "../api/indispoCar";
 
 interface props {
   car: car;
@@ -20,11 +23,11 @@ export default function App({ car }: props) {
 
   const [isManager, setIsManager] = useState(false);
   const [isUser, setIsUser] = useState(false);
-  const [locatId,setLocatId] = useState("")
-
+  const [locatId, setLocatId] = useState("");
 
   useEffect(() => {
     const localRank = localStorage.getItem("rank");
+    setLocatId(localStorage.getItem("id")!)
 
     if (
       localRank !== "user" &&
@@ -32,15 +35,14 @@ export default function App({ car }: props) {
       localRank !== "undefined"
     )
       router.push("/login");
-    if (localRank === "user" ) setIsUser(true)
+    if (localRank === "user") setIsUser(true);
     if (localRank === "manager") setIsManager(true);
   });
 
-
   const [loca, setLoca] = useState<location>({
     id: "",
-    dateDu: "",
-    dateAu: "",
+    dateDu: "2022-12-29",
+    dateAu: "2022-12-30",
     prolongation: false,
     livrer: false,
     chauffeur: false,
@@ -48,42 +50,17 @@ export default function App({ car }: props) {
     locataireId: "",
   });
 
-  const [succesAdd, setSucces] = useState(false);
-
-  useEffect(()=>{
-     setLocatId( localStorage.getItem('id')!)
-  })
-  async function create(data: location) {
-    data.id =  locatId;
-    
+  const handleSubmit = (data: location) => {
     try {
-      fetch("http://localhost:3000/api/createLocation", {
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      }).then(() => {
-        setLoca({
-          id: "",
-          dateDu: "",
-          dateAu: "",
-          prolongation: false,
-          livrer: false,
-          chauffeur: false,
-          voitureId: car.id,
-          locataireId: "",
-        });
-        setSucces(true);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  const handleSubmit = async (data: location) => {
-    try {
-      create(data);
+      checkout(data, car, locatId);
+      fetch("http://localhost:3000/api/indispoCar", {
+            body: JSON.stringify(car),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "PUT",
+        })
+      // await create(data);
     } catch (error) {
       console.log(error);
     }
@@ -101,7 +78,6 @@ export default function App({ car }: props) {
       );
     return <></>;
   }
-
 
   async function deleteContact(id: string) {
     try {
@@ -136,6 +112,7 @@ export default function App({ car }: props) {
     ww: car.ww,
     rating: car.rating,
     image: car.image,
+    priceid: car.priceid,
   });
 
   const handleSubmitCar = async (data: car) => {
@@ -155,7 +132,7 @@ export default function App({ car }: props) {
         },
         method: "PUT",
       }).then(() => {
-        router.reload()
+        router.reload();
         setForm({
           id: car.id,
           name: car.name,
@@ -167,6 +144,7 @@ export default function App({ car }: props) {
           ww: car.ww,
           rating: car.rating,
           image: car.image,
+          priceid: car.priceid,
         });
         //setSucces(true);
       });
@@ -197,6 +175,18 @@ export default function App({ car }: props) {
     );
   }
 
+  // const date = new Date();
+  // const day = date.getDate()
+  // const month = date.getMonth() + 1
+  // const year = date.getFullYear();
+  // const currentDateMin =  `${year}-${month}-${date}`
+  // const currentDateMax =  `${year+1}-${month}-${date}`
+  // console.log(currentDateMin)
+  // console.log(currentDateMax)
+  let currentDate = new Date().toJSON().slice(0, 10);
+  let maxDate = new Date(2023, 11, 31).toJSON().slice(0, 10);
+  console.log(currentDate); // "2022-06-17"
+
   if (isUpdate) {
     updateCar = <></>;
     readOrUpdate = (
@@ -213,7 +203,12 @@ export default function App({ car }: props) {
           >
             Confirm
           </button>
-          <button onClick={()=>{router.reload()}} className="bg-red-300 p-1 rounded-sm flex-grow hover:bg-red-500 duration-300">
+          <button
+            onClick={() => {
+              setIsUpdate(false)
+            }}
+            className="bg-red-300 p-1 rounded-sm flex-grow hover:bg-red-500 duration-300"
+          >
             Cancel
           </button>
         </div>
@@ -289,7 +284,7 @@ export default function App({ car }: props) {
     );
   } else {
     readOrUpdate = (
-      <div className="scale-125 translate-y-10">
+      <div className="scale-125 translate-y-16">
         <img className="w-[120vh]" src={car.image} />
 
         <div className="flex gap-x-6 mt-8">
@@ -336,14 +331,30 @@ export default function App({ car }: props) {
       </div>
     );
   }
-
-  if ((isManager || isUser) )
+  let louer = <button
+  className="py-3 bg-[#8b4f4f] rounded text-white font-bold cursor-no-drop"
+>
+  INDISPONIBLE
+</button>
+  if (car.dispo)
+    louer = (
+      <button
+        type="submit"
+        className="py-3 bg-[#5d8de7] rounded text-white font-bold"
+      >
+        Louer
+      </button>
+    );
+  if (isManager || isUser)
     return (
       <>
         <NavBar />
 
         <div className="flex gap-y-10 p-20 pt-8 pb-8 overflow-y-hidden text-gray-500 bg-gray-100">
           <div className="px-36 mx-16 flex flex-col pt-24 mt-20 gap-y-4 border border-gray-200 bg-white shadow-sm">
+            <span className="text-4xl -translate-x-16 -translate-y-5">
+              INFORMATION VOITURE:
+            </span>
             {updateCar}
             {deleteCar}
             {readOrUpdate}
@@ -356,28 +367,32 @@ export default function App({ car }: props) {
                 handleSubmit(loca);
               }}
             >
-              
               <span className="flex text-4xl gap-x-3">
                 <label>REMPLIR</label>
                 <label className="text-red-500"> FORMULAIRE</label>
               </span>
               <span className="flex gap-x-3">
-                <label className="flex-[25%]">Du</label>
+                <label className="">Du</label>
                 <input
                   value={loca.dateDu}
-                  onChange={(e) => setLoca({ ...loca, dateDu: e.target.value })}
+                  onChange={(e) => {
+                    setLoca({ ...loca, dateDu: e.target.value });
+                    console.log(loca.dateDu);
+                  }}
                   type="date"
-                  min="2022-12-15"
+                  min={currentDate}
+                  max={loca.dateAu}
                   id="fname"
                   className="flex-[25%] py-4 pl-3 rounded bg-white text-xl text-black"
                   required
                 />
-                <label className="flex-[25%]">Au</label>
+                <label className="">Au</label>
                 <input
                   value={loca.dateAu}
                   onChange={(e) => setLoca({ ...loca, dateAu: e.target.value })}
                   type="date"
-                  min="2022-12-16"
+                  min={loca.dateDu}
+                  max={maxDate}
                   id="fname"
                   className="flex-[25%] py-4 pl-3 rounded bg-white text-xl text-black"
                   required
@@ -428,13 +443,8 @@ export default function App({ car }: props) {
                   placeholder="#aoieu"
                 />
               </span>
-              <button
-                type="submit"
-                className="py-3 bg-[#5d8de7] rounded text-white font-bold"
-              >
-                Louer
-              </button>
-              {Succes(succesAdd)}
+              {louer}
+              {/* {Succes(succesAdd)} */}
             </form>
             <div className="p-24 mt-20 px-36 font-bold  border  bg-white shadow-sm">
               Pour plus d'information, veuillez prendre un rendez vous au
@@ -450,8 +460,6 @@ export default function App({ car }: props) {
 export async function getStaticProps({ params }: props) {
   const carId = params.id;
 
-  
-
   const car = await prisma.car.findUnique({
     where: {
       id: carId,
@@ -460,7 +468,6 @@ export async function getStaticProps({ params }: props) {
   return {
     props: {
       car,
-      
     },
   };
 }

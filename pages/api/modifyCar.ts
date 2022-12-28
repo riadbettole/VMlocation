@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 rating,
                 image,
             }
-        })
+    })
         res.status(200).json({message: 'Car Updated'})
     }catch(err){
         console.log("Failure "+ err);

@@ -22,12 +22,13 @@ function AddCar(){
         name: '',
         marque: '',
         fuel: '',
-        kilo: null,
-        prix: null,
+        kilo: 0,
+        prix: 0,
         dispo: true,
         ww: true,
         rating: 0,
-        image: ''
+        image: '',
+        priceid: ''
     })
 
     
@@ -46,7 +47,7 @@ async function create(data: car){
         },
         method: 'POST'
         }).then(()=> {
-            setForm({id:'', name:'', marque:'',fuel:'', kilo:null, prix:null, dispo:true, ww:true,rating:0,image:''})
+            setForm({id:'', name:'', marque:'',fuel:'', kilo:0, prix:0, dispo:true, ww:true,rating:0,image:'',priceid: ''})
             setSucces(true)
         });
     }catch(err){
