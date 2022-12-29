@@ -12,6 +12,7 @@ export default async function indispo(req:NextApiRequest,res:NextApiResponse){
                 dispo: false
             }
         })
+        res.status(405).end();
     }catch(err){
         console.log("Failure "+ err);
     }

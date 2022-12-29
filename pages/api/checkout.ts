@@ -36,7 +36,7 @@ export async function checkout(data: any, car: any, locatId:any) {
   await stripe.redirectToCheckout({
     mode: "payment",
     lineItems,
-    successUrl: "http://localhost:3000/succes",
+    successUrl: "http://localhost:3000/myCars",
     cancelUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   });
 

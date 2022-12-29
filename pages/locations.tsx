@@ -6,9 +6,9 @@ import { car, location } from "@prisma/client";
 import Location from "../component/Location"
 import { Data } from '@react-google-maps/api';
 
-export default function Home({dataLoc}:props) {
+export default function Home({dataLoc}:any) {
     return (
-    <div className='text-3xl'>
+    <div className='text-3xl h-[100vh] '>
         <NavBar/>
         <Location dataLoc={dataLoc}/>
         <div className='p-20'></div>
@@ -36,10 +36,7 @@ export async function getStaticProps(){
         }
         dataLoc.push(data)
     }
-
-    // const results = Promise.all(dataLoc)
     console.log(dataLoc)
-
     return {
       props: {dataLoc}
     }

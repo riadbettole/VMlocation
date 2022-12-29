@@ -6,7 +6,7 @@ export default function Home() {
 
   
   return (
-    <div className='text-3xl'>
+    <div className='text-3xl mySvg2'>
       <NavBar/>
       <AddCar/>
       <Footer/>

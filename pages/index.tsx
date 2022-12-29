@@ -15,7 +15,7 @@ interface props {
 export default function Home({cars}:props) {
   
   return (
-    <div className='text-3xl bodyIndex scroll-smooth overflow-y-hidden'>
+    <div className='text-3xl bodyIndex scroll-smooth overflow-y-hidden '>
       <NavBar/>
       <Welcome/>
       <Rdv/>

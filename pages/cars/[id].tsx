@@ -284,7 +284,7 @@ export default function App({ car }: props) {
     );
   } else {
     readOrUpdate = (
-      <div className="scale-125 translate-y-16">
+      <div className="">
         <img className="w-[120vh]" src={car.image} />
 
         <div className="flex gap-x-6 mt-8">
@@ -331,11 +331,11 @@ export default function App({ car }: props) {
       </div>
     );
   }
-  let louer = <button
-  className="py-3 bg-[#8b4f4f] rounded text-white font-bold cursor-no-drop"
+  let louer = <div
+  className="py-3 bg-[#8b4f4f] rounded text-white font-bold cursor-no-drop text-center"
 >
   INDISPONIBLE
-</button>
+</div>
   if (car.dispo)
     louer = (
       <button
@@ -350,7 +350,7 @@ export default function App({ car }: props) {
       <>
         <NavBar />
 
-        <div className="flex gap-y-10 p-20 pt-8 pb-8 overflow-y-hidden text-gray-500 bg-gray-100">
+        <div className="flex gap-y-10 p-20 pt-8 pb-8 overflow-y-hidden text-gray-500 bg-gray-100 mySvg">
           <div className="px-36 mx-16 flex flex-col pt-24 mt-20 gap-y-4 border border-gray-200 bg-white shadow-sm">
             <span className="text-4xl -translate-x-16 -translate-y-5">
               INFORMATION VOITURE:
@@ -444,7 +444,6 @@ export default function App({ car }: props) {
                 />
               </span>
               {louer}
-              {/* {Succes(succesAdd)} */}
             </form>
             <div className="p-24 mt-20 px-36 font-bold  border  bg-white shadow-sm">
               Pour plus d'information, veuillez prendre un rendez vous au
@@ -452,7 +451,7 @@ export default function App({ car }: props) {
             </div>
           </div>
         </div>
-        <Footer />
+        
       </>
     );
 }

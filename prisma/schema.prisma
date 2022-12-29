@@ -37,10 +37,9 @@ model user {
 
 model rendezvous {
   id String @default(cuid()) @id
-  firstname String
-  lastname String
+  name String
+  tel String
   email String @unique
-  date DateTime
 }
 
 model location {

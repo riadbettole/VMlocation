@@ -11,7 +11,7 @@ interface props{
 function Succes({succes}:props){
     if(succes)
     return(
-        <span id='succes' className="text-center w-96 bg-green-500 text-white border rounded-xl p-3"> Ajout avec succes</span>
+        <span id='succes' className="text-center w-96 bg-green-500 text-white border  p-3"> Ajout avec succes</span>
     )
     return <></>;
 }
@@ -65,7 +65,7 @@ const handleSubmit = async(data: car) => {
 
   return (
     <div className="grid justify-center pt-24 mx-36 ">
-            <form className="p-24 flex flex-col gap-y-3 shadow-xl" onSubmit={
+            <form className="p-24 flex flex-col gap-y-3 shadow-xl bg-white" onSubmit={
                 async (event) => {
                 event.preventDefault()
                 handleSubmit(form)

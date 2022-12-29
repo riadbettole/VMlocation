@@ -73,7 +73,7 @@ function AddUser() {
           }}
         >
           
-          <label className="text-3xl w-96 text-gray-400">Register :</label>
+          <label className="text-5xl mb-12 w-96 text-gray-400 ">Register :</label>
           <input
             value={form.firstname}
             onChange={(e) => setForm({ ...form, firstname: e.target.value })}
