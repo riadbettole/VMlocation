@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import {prisma } from "../../lib/prisma"
 
-export default function MyCars({loca,car}){
+export default function MyCars({loca,car}:any){
     const [userId,setUserId] = useState("")
     useEffect(()=>{
         setUserId(localStorage.getItem('id')!)

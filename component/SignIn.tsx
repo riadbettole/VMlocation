@@ -1,6 +1,6 @@
 import Router, { useRouter } from "next/router";
 import { user } from "@prisma/client";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
 import Link from "next/link";
 
@@ -61,6 +61,10 @@ function AddUser() {
     }
   };
 
+  // useEffect(() => {
+  //   localStorage.setItem('prev',router.pathname)
+  // })
+
   return (
     <>
       <div className="flex align-middle justify-center mt-12 mx-36 h-[75vh] relative">
@@ -73,7 +77,7 @@ function AddUser() {
           }}
         >
           
-          <label className="text-5xl mb-12 w-96 text-gray-400 ">Register :</label>
+          <label className="text-5xl mb-2 w-96 text-gray-400 font-thin">Inscription :</label>
           <input
             value={form.firstname}
             onChange={(e) => setForm({ ...form, firstname: e.target.value })}
@@ -129,17 +133,9 @@ function AddUser() {
             placeholder="@adresse"
           ></input>
           {/* <input value={form.avatar} onChange={e => setForm({...form, avatar: e.target.value})} required type='text'   id="fname" className="py-4 pl-3 rounded bg-white text-xl text-black"  placeholder="link pic"></input>  */}
-          <input
-            value={form.cin}
-            onChange={(e) => setForm({ ...form, cin: e.target.value })}
-            required
-            type="text"
-            id="fname"
-            className="py-4 pl-3 rounded bg-white text-xl text-black"
-            placeholder="link cin"
-          ></input>
+        
 
-          <button type="submit" className="py-3 bg-red-500 hover:bg-[#ff0101] duration-500 ease-in-out text-white rounded">
+          <button type="submit" className="mt-4 py-3 bg-red-500  hover:bg-[#ff0101] duration-500 ease-in-out text-white ">
             Submit
           </button>
         </form>

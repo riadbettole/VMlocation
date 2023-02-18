@@ -1,6 +1,6 @@
 import Router, { useRouter } from "next/router";
 import { user } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import Link from "next/link";
 
@@ -40,6 +40,11 @@ export default function Login({ users }: props) {
     return false;
   };
 
+  // const [prev,setPrev] = useState('')
+  // useEffect(()=>{
+  //   setPrev(localStorage.getItem('prevCar')!)
+  // })
+
   return (
     <div className="flex align-middle justify-center mt-12 mx-36 h-[75vh] relative">
       <form
@@ -74,7 +79,7 @@ export default function Login({ users }: props) {
           className="py-4 pl-3 rounded bg-white text-xl text-black"
           placeholder="Password"
         ></input>
-      <button type="submit" className="py-3 bg-red-500 hover:bg-[#ff0101] duration-500 ease-in-out rounded text-white text-2xl"> Submit </button>
+      <button type="submit" className="py-3 bg-red-500 hover:bg-[#ff0101] duration-500 ease-in-out  text-white text-2xl"> Submit </button>
         <Link
           className="flex gap-x-4 absolute bottom-20 hover:text-[#badb57] duration-700 ease-in-out bg-transparent"
           href="/"

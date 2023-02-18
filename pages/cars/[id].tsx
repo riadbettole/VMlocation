@@ -41,8 +41,8 @@ export default function App({ car }: props) {
 
   const [loca, setLoca] = useState<location>({
     id: "",
-    dateDu: "2022-12-29",
-    dateAu: "2022-12-30",
+    dateDu: "2023-01-24",
+    dateAu: "2023-01-30",
     prolongation: false,
     livrer: false,
     chauffeur: false,
@@ -345,7 +345,7 @@ export default function App({ car }: props) {
         Louer
       </button>
     );
-  if (isManager || isUser)
+
     return (
       <>
         <NavBar />
