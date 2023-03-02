@@ -38,11 +38,18 @@ export default function App({ car }: props) {
     if (localRank === "user") setIsUser(true);
     if (localRank === "manager") setIsManager(true);
   });
+  const d = new Date();
+  const dateMin = d.getFullYear()+"-"+ ("0"+ (d.getMonth() + 1) ).slice(-2) +
+                  "-" + ("0"+ (d.getDate() + 1)).slice(-2);  
+  // const dateMed = d.getFullYear() + "-" + ("0" +(d.getMonth() + 1)).slice(-2) +
+  //                 "-" + ("0"+ (d.getDate() + 2)).slice(-2);  
+  const dateMax = ( d.getFullYear() + 1 ) + "-" + ("0"+(d.getMonth() + 1)).slice(-2)
+                  + "-" + ("0"+d.getDate()).slice(-2);
 
   const [loca, setLoca] = useState<location>({
     id: "",
-    dateDu: "2023-01-24",
-    dateAu: "2023-01-30",
+    dateDu: dateMin,
+    dateAu: "",
     prolongation: false,
     livrer: false,
     chauffeur: false,
@@ -183,9 +190,9 @@ export default function App({ car }: props) {
   // const currentDateMax =  `${year+1}-${month}-${date}`
   // console.log(currentDateMin)
   // console.log(currentDateMax)
-  let currentDate = new Date().toJSON().slice(0, 10);
-  let maxDate = new Date(2023, 11, 31).toJSON().slice(0, 10);
-  console.log(currentDate); // "2022-06-17"
+
+
+ 
 
   if (isUpdate) {
     updateCar = <></>;
@@ -380,7 +387,7 @@ export default function App({ car }: props) {
                     console.log(loca.dateDu);
                   }}
                   type="date"
-                  min={currentDate}
+                  min={dateMin}
                   max={loca.dateAu}
                   id="fname"
                   className="flex-[25%] py-4 pl-3 rounded bg-white text-xl text-black"
@@ -392,7 +399,7 @@ export default function App({ car }: props) {
                   onChange={(e) => setLoca({ ...loca, dateAu: e.target.value })}
                   type="date"
                   min={loca.dateDu}
-                  max={maxDate}
+                  max={dateMax}
                   id="fname"
                   className="flex-[25%] py-4 pl-3 rounded bg-white text-xl text-black"
                   required
